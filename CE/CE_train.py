@@ -239,8 +239,7 @@ def train_model(model, disc, nli, fields, g_optim, d_optim, nli_optim, data_type
         train_datasets = load_dataset("train")
         train_iter = make_dataset_iter(train_datasets, fields, opt)
         train_stats = trainer.train(train_iter, epoch, report_func)
-        print('Train perplexity: %g' % train_stats.ppl())
-        print('Train accuracy: %g' % 100 * float(int(train_stats.n_acc)/train_stats.n_batch))
+        print('Train accuracy: %g' % (100 * float(int(train_stats.n_acc)/train_stats.n_batch)))
 
         # 2. Validate on the validation set.
         valid_iter = make_dataset_iter(load_dataset("valid"),
@@ -248,8 +247,7 @@ def train_model(model, disc, nli, fields, g_optim, d_optim, nli_optim, data_type
                                        is_train=False)
 
         valid_stats = trainer.validate(valid_iter)
-        print('Validation perplexity: %g' % valid_stats.ppl())
-        print('Validation accuracy: %g' % 100 * float(int(valid_stats.n_acc)/valid_stats.n_batch))
+        print('Validation accuracy: %g' % valid_stats.accuracy())
 
         # 3. Log to remote server.
         if opt.exp_host:
